@@ -1,0 +1,12 @@
+global nSections Re
+nSections = 15;
+Re = 60000;
+
+[alpha1, Cl1, Cd1] = liftAndDrag('NACA0012', 'oper iter 50');
+disp('Alpha')
+disp(alpha1)
+disp('Lift Coefficients')
+disp(Cl1)
+disp('Drag Coefficients')
+disp(Cd1)
+
