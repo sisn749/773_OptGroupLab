@@ -14,6 +14,8 @@ function [c, beta] = optimiseTurbineGivenShape(fx, numblades)
 % 0. call the global variables ------------------------------------------
 global Vu rho eta nSections clearance B Re R Curve
 
+B = numblades;
+
 % 1. set the bounds -----------------------------------------------------
 
 % Solidity-based bounds using proper wind turbine theory
@@ -35,7 +37,20 @@ lb_chord = 0.01 * ub_chord; % 1 percent of upper bound
 lb_beta = 0 * pi/180 * ones(1, nSections);
 ub_beta = 60 * pi/180 * ones(1, nSections);
 
-% 2. 
+% combine them
+lb = [lb_chord, lb_beta];
+ub = [ub_chord, ub_beta];
 
+% 2. initialise the genetic algorithm 
+options = optimoptions('ga', ...
+    'MaxGenerations', ((10000 - 50)/50));
+
+objFun = @(x) turbineObj(x, fx);
+
+% 3. perform the genetic algorithm
+[c_and_beta, objf] = ga(objFun, 2*nSections, [], [], [], [], lb, ub, [], options);
+
+c = c_and_beta(1:nSections);
+beta = c_and_beta(nSections+1:end);
 
 end
