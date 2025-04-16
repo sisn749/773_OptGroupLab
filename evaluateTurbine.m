@@ -32,7 +32,7 @@ converged = false;
 % initial guess of lambda
 lambda = 2; 
 
-max_iterations = 5000;
+max_iterations = 10;
 iterations = 0;
 
 while ~converged && iterations < max_iterations

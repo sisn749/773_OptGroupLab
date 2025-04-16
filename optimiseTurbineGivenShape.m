@@ -43,7 +43,8 @@ ub = [ub_chord, ub_beta];
 
 % 2. initialise the genetic algorithm 
 options = optimoptions('ga', ...
-    'MaxGenerations', ((10000 - 50)/50));
+    'PopulationSize', 10, ...
+    'MaxGenerations', 10);
 
 objFun = @(x) turbineObj(x, fx);
 
