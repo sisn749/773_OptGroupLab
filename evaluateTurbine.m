@@ -26,13 +26,13 @@ r = linspace(clearance, R, nSections);
 
 
 % convergence tolerance
-tol = 1*10^(-6);
+tol = 1*10^(-3);
 converged = false;
 
 % initial guess of lambda
 lambda = 2; 
 
-max_iterations = 10;
+max_iterations = 100;
 iterations = 0;
 
 while ~converged && iterations < max_iterations
@@ -92,13 +92,8 @@ while ~converged && iterations < max_iterations
         a_prime = a_prime_old + xi*(a_prime - a_prime_old);
         
         % check a is within realistic bounds
-        for i=1:nSections
-            if a(i) < 0
-                a(i) = 0;
-            elseif a(i) > 0.5
-                a(i) = 0.5;
-            end
-        end
+        a(a < 0) = 0;
+        a(a > 0.5) = 0.5;
 
         % Check for convergence
         if all(abs(a - a_old) < tol) && all(abs(a_prime - a_prime_old) < tol)

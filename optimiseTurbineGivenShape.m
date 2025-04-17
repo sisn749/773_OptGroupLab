@@ -1,4 +1,4 @@
-function [c, beta] = optimiseTurbineGivenShape(fx, numblades)
+function [fitness, design] = optimiseTurbineGivenShape(fx, numblades)
 % this function is the "inner loop" and optimises the cord length and beta
 % angle for a given turbine shape. 
 
@@ -51,7 +51,7 @@ objFun = @(x) turbineObj(x, fx);
 % 3. perform the genetic algorithm
 [c_and_beta, objf] = ga(objFun, 2*nSections, [], [], [], [], lb, ub, [], options);
 
-c = c_and_beta(1:nSections);
-beta = c_and_beta(nSections+1:end);
+fitness = objf;
+design = c_and_beta;
 
 end
