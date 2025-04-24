@@ -2,8 +2,8 @@ function population = populationInitilise(airfoil, numBlades, refResults)
     
     found = false;
     for i = 1:length(refResults)
-        if refResults(i, 1) == airfoil && refResults(i, 2) == numBlades
-            refDesign = refResults(i, 4);
+        if strcmp(refResults(i).airfoil, airfoil) && refResults(i).bladeCount == numBlades
+            refDesign = refResults(i).design;
             found = true;
         end
     end
@@ -14,7 +14,7 @@ function population = populationInitilise(airfoil, numBlades, refResults)
         population = zeros(n_designs, length(refDesign));
 
         for i =1:n_designs
-            design = (1 + 0.3 *(2*rand(siz(refDesign))-1)).* refDesign;
+            design = (1 + 0.3 *(2*rand(size(refDesign))-1)).* refDesign;
 
             design = max(design, 0.7*refDesign);
             design = max(design, 1.3*refDesign);
