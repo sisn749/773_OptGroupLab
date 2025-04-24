@@ -41,7 +41,7 @@ for i = 1:length(airfoil_candidates)
             % save results
             result.airfoil = airfoil;
             result.bladeCount = b;
-            result.Cp = -fitness;
+            result.Cp = fitness;
             result.design = design;
 
             results(end+1) = result;
@@ -54,20 +54,20 @@ end
 
 % identify best result based on max power coefficient (Cp)
 if ~isempty(results)
-    [~, idx] = max([results.Cp]); 
+    [~, idx] = min([results.Cp]); 
     best = results(idx);
 
-    fprintf('Airfoil\t\tBlades\tWeighted Power Sum with Smoothness Penalty\n');
+    fprintf('Airfoil\t\tBlades\tCp\n');
     fprintf('-----------------------------\n');
-    for k = 1:length(results)
-        fprintf('%-10s\t%d\t%.4f\n', results(k).airfoil, results(k).bladeCount, results(k).Cp);
-    end
+for k = 1:length(results)
+    fprintf('%-10s\t%d\t%.4f\n', results(k).airfoil, results(k).bladeCount, results(k).Cp);
+end
 
     
     fprintf('\nBest design found:\n');
     fprintf('  Airfoil: %s\n', best.airfoil);
     fprintf('  Blade count: %d\n', best.bladeCount);
-    fprintf('  Weighted Power Sum with Smoothness Penalty: %.4f\n', best.Cp);
+    fprintf('  Power coefficient (Cp): %.4f\n', best.Cp);
 else
     fprintf('No successful designs were generated.\n');
 end
