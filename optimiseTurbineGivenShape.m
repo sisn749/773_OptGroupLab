@@ -12,7 +12,7 @@ function [fitness, design] = optimiseTurbineGivenShape(fx, numblades)
 % beta: optimal setting angle
 
 % 0. call the global variables ------------------------------------------
-global Vu rho eta nSections clearance B Re R Curve
+global Vu rho eta nSections clearance B Re R Curve airfoil refDesigns   
 
 B = numblades;
 
@@ -41,9 +41,12 @@ ub_beta = 60 * pi/180 * ones(1, nSections);
 lb = [lb_chord, lb_beta];
 ub = [ub_chord, ub_beta];
 
+initialPop = populationInitilise();
+
 % 2. initialise the genetic algorithm 
 options = optimoptions('ga', ...
-    'PopulationSize', 10, ...
+    'PopulationSize', size(initialPop, 1), ...
+    'InitialPopulationMatrix', initialPop, ...
     'MaxGenerations', 10);
 
 objFun = @(x) turbineObj(x, fx);

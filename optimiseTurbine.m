@@ -7,7 +7,7 @@ R = 0.75;           % Outside radius of the turbine
 Curve = @(x) generator(x);% Function relating torque to RPM of the generator
 rho = 1.29;         % Density of air
 eta = 1;            % System efficiency
-nSections = 15;
+nSections = 10;
 clearance = 0.1;    % Radius of hub + any further distance with no blade section allowed.
 Re = 60000;         % Approximate Reynolds number for design
 

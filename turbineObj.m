@@ -9,8 +9,8 @@ function objValue = turbineObj(design, fx)
     wind_speeds = [4, 5, 6, 7];
     weights = [0.25, 0.45, 0.2, 0.1];
 
-    lambda_angle = 1;
-    lambda_cord = 1;
+    lambda_angle = 5;
+    lambda_cord = 5;
 
     % evaluate performace at each wind speed
     for i = 1:length(wind_speeds)
@@ -33,13 +33,21 @@ function objValue = turbineObj(design, fx)
         % add to the weighted power
         weighted_power = weighted_power + power*weights(i);
 
-        % penalty
-        penalty = lambda_cord*sum(diff(design(1:nSections).^2)) + ...
-            lambda_angle*sum(diff(design(nSections+1:end).^2));
-        weighted_power = weighted_power - penalty;
-
-
     end
+
+    % Extract chord and angle parts of the design
+    chord = design(1:nSections);
+    angle = design(nSections+1:end);
+
+    % Compute second-order differences
+    second_diff_chord = chord(3:end) - 2*chord(2:end-1) + chord(1:end-2);
+    second_diff_angle = angle(3:end) - 2*angle(2:end-1) + angle(1:end-2);
+
+    % Compute smoothness penalty
+    penalty = lambda_cord * sum(second_diff_chord.^2) + ...
+     lambda_angle * sum(second_diff_angle.^2);
+
+    weighted_power = weighted_power - penalty;
     
     % return as negative so minimised is best
     objValue = -weighted_power;
