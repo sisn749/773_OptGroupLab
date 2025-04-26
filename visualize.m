@@ -30,7 +30,7 @@ function visualize(shape, nsection, design)
             % Store result and change z
             X(:, i) = x_rot;
             Y(:, i) = y_rot;
-            Z(:, i) = (i-1) * ones(1,300);
+            Z(:, i) = (((i-1) * ones(1,300))/nsection)*0.6;
     end
     
     % Plot surface
